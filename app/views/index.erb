@@ -1,0 +1,14 @@
+<h1>Artists</h1>
+
+<form action="/artists" method="GET">
+  <input type="text" name="search_name" placeholder="Artist's name">
+  <input type="submit" name="search">
+</form>
+
+<% @artists.each do |artist| %>
+  <p>
+    <a href="/artists/<%= artist.id %>">
+      <%= artist.name %>
+    </a>
+  </p>
+<% end %>
