@@ -15,6 +15,8 @@ class ApplicationController < Sinatra::Base
     erb :welcome
   end
 
+  # INDEX
+
   get '/artists' do
     if params[:search_name]
       @artists = artists.where("name LIKE ?", "%#{params[:search_name]}%")
@@ -24,19 +26,43 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
+  # NEW
   get '/artists/new' do
     erb :new
   end
 
-  get '/artists/:id' do
-    @artist = artists.find(params[:id])
-    erb :show
-  end
-
+  # CREATE
   post "/artists" do
 
     @artist = Artist.create(params[:artist])
     redirect "/artists/#{@artist.id}"
+  end
+
+  # SHOW
+  get '/artists/:id' do
+    @artist = Artist.find(params[:id])
+    erb :show
+  end
+
+  # EDIT ACTION
+  get '/artists/:id/edit' do
+    @artist = Artist.find(params[:id])
+    erb :edit
+  end
+
+  # UPDATE action
+  patch '/artists/:id' do
+    # binding.pry
+    @artist = Artist.find(params[:id])
+    @artist.update(params[:artist])
+    redirect "/artists/#{@artist.id}"
+  end
+
+  # Destroy
+  delete '/artists/:id' do
+    @artist = Artist.find(params[:id])
+    @artist.destroy
+    redirect "/artists"
   end
 
 
